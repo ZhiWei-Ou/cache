@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+// 定义一个简单的用户信息消息
+message User {
+  int32 id = 1;         // 用户 ID
+  string name = 2;      // 用户名
+  string email = 3;     // 邮箱
+  repeated string tags = 4; // 用户标签列表 (支持多个标签)
+}
+
+// 定义一个响应消息，包含多个用户信息
+message UserList {
+  repeated User users = 1; // 用户列表
+}
