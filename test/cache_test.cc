@@ -71,11 +71,14 @@ TEST(Cache, ProtoBufCacheTest) {
     foo3.set_name("foo3");
 
 
+    bool exist = false;
     cache::Cache<foo::User, 3> UserCache;
 
-    UserCache.Update(foo1);
-    bool exist = false;
+    // Empty peek
+    auto bar0 = UserCache.Peek(&exist);
+    EXPECT_EQ(exist, false);
 
+    UserCache.Update(foo1);
     auto bar1 = UserCache.Peek(&exist);
     EXPECT_EQ(exist, true);
     EXPECT_EQ(bar1.id(), 1);
