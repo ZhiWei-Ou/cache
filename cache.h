@@ -24,6 +24,11 @@ template <typename _Tp, std::size_t _N> class Cache {
 public:
     Cache() = default;
 
+    void Update(const _Tp& val) {
+        auto copy = val;
+        queue_.Enqueue(std::move(copy));
+    }
+
     void Update(_Tp&& val) {
         queue_.Enqueue(std::forward<_Tp>(val));
     }
