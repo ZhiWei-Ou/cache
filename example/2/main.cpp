@@ -22,20 +22,29 @@ int main(int argc, char **argv){
 
 
     cache::Cache<foo::User, 3> UserCache;
-
-    UserCache.Update(foo1);
-    UserCache.Update(foo2);
-    UserCache.Update(foo3);
-    UserCache.Update(foo1);
-    UserCache.Update(foo1);
-    UserCache.Update(foo1);
-    UserCache.Update(foo2);
-    UserCache.Update(foo3);
-    UserCache.Update(foo1);
-    UserCache.Update(foo2);
-
     bool ok = false;
+    {
+        auto new_ = UserCache.Peek(&ok);
+        if (!ok) {
+            spdlog::error("Peek error");
+        }
+    }
+
+    UserCache.Update(foo1);
+    UserCache.Update(foo2);
+    UserCache.Update(foo3);
+    UserCache.Update(foo1);
+    UserCache.Update(foo1);
+    UserCache.Update(foo1);
+    UserCache.Update(foo2);
+    UserCache.Update(foo3);
+    UserCache.Update(foo1);
+    UserCache.Update(foo2);
+
     auto new_ = UserCache.Peek(&ok);
+    if (!ok) {
+        spdlog::error("Peek error");
+    }
     if (ok) {
         new_.PrintDebugString();
     } else {
