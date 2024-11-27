@@ -7,7 +7,6 @@ project(${PROJECT_NAME} VERSION ${VERSION} LANGUAGES CXX)
 
 include(FetchContent)
 
-
 # spdlog
 FetchContent_Declare(
     spdlog

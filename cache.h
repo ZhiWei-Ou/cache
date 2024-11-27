@@ -13,13 +13,18 @@
 #include <cstddef>
 #include <chrono>
 #include <functional>
+#include <mutex>
 #include <utility>
 
 namespace cache {
 
 template <typename Tp_, std::size_t N_> class FixedQueue;
 template <typename _Tp> class Item;
-template <typename _Tp, std::size_t _N> class Cache {
+class Mutex;
+class NullMutex;
+
+template <typename _Tp, std::size_t _N, typename _Mutex = Mutex> class Cache {
+    _Mutex mutex_;
     FixedQueue<Item<_Tp>, _N> queue_;
 public:
     Cache() = default;
@@ -30,10 +35,12 @@ public:
     }
 
     void Update(_Tp&& val) {
+        std::lock_guard<_Mutex> lock(mutex_);
         queue_.Enqueue(std::forward<_Tp>(val));
     }
 
-    _Tp Peek(bool *ok) const {
+    _Tp Peek(bool *ok) {
+        std::lock_guard<_Mutex> lock(mutex_);
         return queue_.PeekNew().Value(ok);
     }
 };
@@ -166,5 +173,18 @@ protected:
 private:
 };
 
+struct Mutex {
+private:
+    using mutex_t = std::mutex;
+    mutex_t __m_;
+public:
+    void lock() { __m_.lock(); }
+    void unlock() { __m_.unlock(); }
+};
+
+struct NullMutex {
+    void lock() {}
+    void unlock() {}
+};
 
 } /* namespace cache */
