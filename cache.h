@@ -28,6 +28,8 @@ template <typename _Tp, std::size_t _N, typename _Mutex = Mutex> class Cache {
     FixedQueue<Item<_Tp>, _N> queue_;
 public:
     Cache() = default;
+    Cache(const Cache&) = default;
+    Cache(Cache&&) = default;
 
     void Update(const _Tp& val) {
         auto copy = val;
