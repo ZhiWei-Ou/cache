@@ -7,6 +7,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+# GBenchmark
+FetchContent_Declare(
+    gbenchmark
+    GIT_REPOSITORY https://github.com/google/benchmark.git
+    GIT_TAG    v1.9.1
+)
+FetchContent_MakeAvailable(gbenchmark)
+
 add_executable( fixedqueue_test fixedqueue_test.cc)
 target_link_libraries( fixedqueue_test spdlog::spdlog GTest::gtest_main cache::cache)
 
@@ -28,3 +36,8 @@ endif()
 include(GoogleTest)
 gtest_discover_tests(fixedqueue_test)
 gtest_discover_tests(cache_test)
+
+# benchmark
+add_executable( cache_benchmark cache_benchmark.cc)
+target_link_libraries( cache_benchmark cache::cache benchmark::benchmark_main)
+target_compile_options( cache_benchmark PRIVATE --std=c++14)
