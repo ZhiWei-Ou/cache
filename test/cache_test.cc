@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "foo.pb.h"
 #include "../cache.h"
-#include "spdlog/spdlog.h"
+
+#ifdef WITH_PROTOBUF
+#include "foo.pb.h"
+#endif
 
 struct Foo {
     std::string name;
@@ -57,6 +59,7 @@ TEST(Cache, BasicTest) {
     EXPECT_EQ(c3.name, "h"); 
 }
 
+#ifdef WITH_PROTOBUF
 TEST(Cache, ProtoBufCacheTest) {
     foo::User foo1;
     foo1.set_id(1);
@@ -110,3 +113,4 @@ TEST(Cache, ProtoBufCacheTest) {
     EXPECT_EQ(bar5.id(), 2);
     EXPECT_EQ(bar5.name(), "foo2");
 }
+#endif

@@ -7,6 +7,24 @@ A fixed-size container for caching objects.
 - Non-blocking
 - FIFO
 
+## Build
+- Build **cache** library
+```bash
+cmake -B build -S .
+cmake --build build --target all -j8
+```
+- Build With Test
+```bash
+cmake -B build -S . -DBUILD_TEST=ON
+cmake --build build --target all -j8
+```
+- Build With Example
+```bash
+cmake -B build -S . -DBUILD_EXAMPLE=ON
+cmake --build build --target all -j8
+```
+
+
 ## Usage
 ```cpp
     // @Foo: Foo is the type of object to cache
@@ -75,5 +93,4 @@ A fixed-size container for caching objects.
 ```
 
 ## Graph
-![graph](./assets/Graph.png)
 
