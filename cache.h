@@ -45,6 +45,12 @@ public:
         std::lock_guard<_Mutex> lock(mutex_);
         return queue_.PeekNew().Value(ok);
     }
+
+    _Tp operator[](std::size_t index) {
+        std::lock_guard<_Mutex> lock(mutex_);
+
+        return queue_[index].Value();
+    }
 };
 
 template <typename _Tp> class Item {
@@ -74,6 +80,9 @@ public:
 
     ms LifeMs() const { if (Valid()) return -1; return lifeMs(); }
     sec LifeSec() const { if (Valid()) return -1; return lifeSec(); }
+
+    _Tp Value() const
+    { return value_; }
 
     _Tp Value(bool *ok) const
     { return *ok = Valid(), value_; }
@@ -126,6 +135,13 @@ public:
         --len_;
         std::size_t pos = old_;
         old_ = Advance(old_);
+        return data_[pos];
+    }
+
+    Tp_ operator[](std::size_t pos) {
+        if (pos >= N_) 
+            throw std::out_of_range("FixedQueue index out of range");
+
         return data_[pos];
     }
 

@@ -59,6 +59,18 @@ TEST(Cache, BasicTest) {
     EXPECT_EQ(c3.name, "h"); 
 }
 
+TEST(Cache, OperatorTest) {
+    cache::Cache<Foo, 3> cachePool;
+
+    cachePool.Update(Foo("b"));
+    cachePool.Update(Foo("c"));
+    cachePool.Update(Foo("d"));
+
+    EXPECT_EQ(cachePool[0].name, "b");
+    EXPECT_EQ(cachePool[1].name, "c");
+    EXPECT_EQ(cachePool[2].name, "d");
+}
+
 #ifdef WITH_PROTOBUF
 TEST(Cache, ProtoBufCacheTest) {
     foo::User foo1;
